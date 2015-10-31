@@ -12,8 +12,9 @@ import JLToast
 
 class LoginController: UIViewController {
 
-    let LOGIN_URL = "https://api.taiga.io/api/v1/auth"
+
     
+    @IBOutlet weak var lblHost: UITextField!
     @IBOutlet weak var lblUsername: UITextField!
     @IBOutlet weak var lblPassword: UITextField!
     @IBOutlet weak var loading: UIActivityIndicatorView!
@@ -29,6 +30,7 @@ class LoginController: UIViewController {
     }
 
     @IBAction func doLogin(sender: AnyObject) {
+        let LOGIN_URL = lblHost.text! + "/api/v1/auth"
         if(lblUsername.hasText() && lblPassword.hasText()){
             loading.startAnimating()
             self.view.userInteractionEnabled = false
@@ -38,6 +40,7 @@ class LoginController: UIViewController {
                     if user.authToken != nil {
                         let view: UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("main") as! MainController
                         (view as! MainController).setUser(user)
+                        (view as! MainController).setServerHost(self.lblHost.text!)
                         self.presentViewController(view, animated:true, completion:nil)
                     } else {
                         JLToast.makeText("Login failed").show()

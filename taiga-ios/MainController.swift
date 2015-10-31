@@ -10,15 +10,16 @@ import UIKit
 import Alamofire
 
 class MainController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    let LIST_PROJECTS_URL = "https://api.taiga.io/api/v1/projects"
     
     @IBOutlet weak var tableView: UITableView!
     
     var user: User!
+    var hostname: String!
     var projects = [Project]()
     
     override func viewDidLoad() {
+        let LIST_PROJECTS_URL = hostname + "/api/v1/projects"
+        
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
@@ -43,6 +44,10 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
  
     func setUser(user: User){
         self.user = user
+    }
+    
+    func setServerHost(hostname: String){
+        self.hostname = hostname
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
